@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>My App</title>
+    <!-- Path to Framework7 Library CSS-->
+    <link rel="stylesheet" href="f7/css/framework7.ios.min.css">
+    <!-- Path to your custom app styles-->
+    <link rel="stylesheet" href="css/my-app.css">
+  </head>
+
+  <body>
+    <!-- Status bar overlay for fullscreen mode-->
+    <div class="statusbar-overlay"></div>
+
+    <!-- Panels overlay-->
+    <div class="panel-overlay"></div>
+
+    <!-- Left panel with reveal effect-->
+    <div class="panel panel-left panel-reveal">
+      <div class="content-block">
+        <p>Left panel content goes here</p>
+      </div>
+    </div>
+
+    <!-- Right panel with cover effect-->
+    <div class="panel panel-right panel-cover">
+      <div class="content-block">
+        <p>Right panel content goes here</p>
+      </div>
+    </div>
+
+    <!-- Views, and they are tabs-->
+    <!-- We need to set "toolbar-through" class on it to keep space for our tab bar-->
+    <div class="views tabs toolbar-through">
+
+      <!-- Your first view, it is also a .tab and should have "active" class to make it visible by default-->
+      <div id="view-1" class="view view-main tab active">
+
+        <!-- Pages-->
+        <div class="pages navbar-fixed">
+          <!-- Page, data-page contains page name-->
+          <div data-page="index-1" class="page">
+
+            <div class="navbar">
+              <div class="navbar-inner">
+                <div class="center">Viewer</div>
+              </div>
+            </div>
+
+            <!-- Scrollable page content-->
+            <div class="page-content">
+
+              <!--<div class="content-block">
+                <p>Enter a connect key to connect to Evothings Workbench.</p>
+              </div>-->
+
+              <div class="list-block">
+                <ul>
+                  <li>
+                    <div class="item-content">
+                        <div class="item-inner">
+                          <div class="item-input">
+                              <input type="text" placeholder="Enter connect key">
+                          </div>
+                        </div>
+                    </div>
+                  </li>
+                  <li>
+                    <a href="#" class="item-link list-button">Connect</a>
+                  </li>
+                </ul>
+              </div>
+
+            </div>
+            <!-- Scrollable page content-->
+
+          </div>
+          <!-- Page, data-page contains page name-->
+
+        </div>
+        <!-- Pages-->
+
+      </div>
+      <!-- Your first view, it is also a .tab and should have "active" class to make it visible by default-->
+
+      <!-- Second view (for second wrap)-->
+      <div id="view-2" class="view tab">
+        <!-- We can make with view with navigation, let's add Top Navbar-->
+        <div class="navbar">
+          <div class="navbar-inner">
+            <div class="center sliding">Recent</div>
+          </div>
+        </div>
+        <div class="pages navbar-through">
+          <div data-page="index-2" class="page">
+            <div class="page-content">
+
+              <div class="list-block">
+                <ul>
+                  <li>
+                    <a href="about.html" class="item-link">
+                      <div class="item-content">
+                        <div class="item-inner">
+                          <div class="item-title">BLE Scan</div>
+                        </div>
+                      </div>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="services.html" class="item-link">
+                      <div class="item-content">
+                        <div class="item-inner">
+                          <div class="item-title">TI SensorTag Accelerometer</div>
+                        </div>
+                      </div>
+                    </a>
+                  </li>
+                  <li>
+                    <a href="services.html" class="item-link">
+                      <div class="item-content">
+                        <div class="item-inner">
+                          <div class="item-title">nRF51 Blink</div>
+                        </div>
+                      </div>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Third view -->
+      <div id="view-3" class="view tab">
+        <div class="pages navbar-fixed">
+          <div data-page="index-3" class="page">
+
+            <div class="navbar">
+              <div class="navbar-inner">
+                <div class="center">Settings</div>
+              </div>
+            </div>
+
+            <div class="page-content">
+              <div class="content-block-title">Another plain static view</div>
+              <div class="content-block">
+                <p>hej</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Forth view -->
+      <div id="view-4" class="view tab">
+        <div class="pages navbar-fixed">
+          <div data-page="index-4" class="page">
+
+            <div class="navbar">
+              <div class="navbar-inner">
+                <div class="center">About</div>
+              </div>
+            </div>
+
+            <div class="page-content">
+              <div class="content-block">
+                <p>hej</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Tabbar-->
+      <div class="toolbar tabbar tabbar-labels">
+        <div class="toolbar-inner">
+          <a href="#view-1" class="tab-link active">
+            <i class="icon tabbar-demo-icon-1"></i>
+            <span class="tabbar-label">Connect</span>
+          </a>
+          <a href="#view-2" class="tab-link">
+            <i class="icon tabbar-demo-icon-2"></i>
+            <span class="tabbar-label">Recent</span>
+          </a>
+          <a href="#view-3" class="tab-link">
+            <i class="icon tabbar-demo-icon-3"></i>
+            <span class="tabbar-label">Settings</span>
+          </a>
+          <a href="#view-4" class="tab-link">
+            <i class="icon tabbar-demo-icon-4"></i>
+            <span class="tabbar-label">About</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Path to Framework7 Library JS-->
+    <script src="f7/js/framework7.min.js"></script>
+    <!-- Path to your app js-->
+    <script src="js/my-app.js"></script>
+  </body>
+</html>
