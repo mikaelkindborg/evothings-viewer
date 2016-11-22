@@ -28,29 +28,9 @@
 
 </head>
 
-<body ontouchstart=""><!-- ontouchstart="" enables low-delay CSS transitions. -->
-
-	<header>
-		<img class="logotype" src="ui/images/logo.svg" alt="Evothings" />
-
-		<!-- tabindex and onclick enables :focus selector in some browsers. -->
-		<button id="menu-button" tabindex="0" onclick="this.focus()">
-			<img src="ui/images/menu.svg" />
-		</button>
-
-		<menu>
-			<menuitem id="menuitem-main">Connect</menuitem>
-			<menuitem id="menuitem-info">Info</menuitem>
-			<menuitem id="menuitem-settings">Settings</menuitem>
-			<!--<menuitem onclick="location.href='gallery.html'">
-				App Gallery
-			</menuitem>-->
-		</menu>
-	</header>
+<body ontouchstart="">
 
 	<main id="screen-main">
-		<h1>Evothings Viewer</h1>
-
 		<div id="connect-ui">
 			<input id="input-connect-key" type="url" placeholder="" />
 			<br/>
