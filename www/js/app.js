@@ -32,6 +32,17 @@ app.initialize = function()
 	})
 }
 
+document.addEventListener(
+	'deviceready',
+	function()
+	{
+    // Create native navbar.
+    evothings.navbar.create()
+    evothings.navbar.setupEvothingsViewerUI()
+    evothings.navbar.show()
+	},
+	false)
+
 app.loadAddOnScript = function()
 {
 	var tryToLoadAgainTimeout = 1500
@@ -42,7 +53,7 @@ app.loadAddOnScript = function()
 	//	'/server-www/static/evothings-viewer-addon-' +
 	//	app.viewerVersion +
 	//	'.js'
-	
+
 	// Moved add-on script to new location.
 	var url =
 		'https://evothings.com/viewer/evothings-viewer-addon-' +
