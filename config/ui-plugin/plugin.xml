@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    id="com.evothings.evothingsviewer.ui-plugin"
+    version="1.0.0">
+    <name>Evothings Viewer UI Plugin</name>
+    <description>This plugin adds a native navigation bar to iOS. Based on https://github.com/Emadello/cordova-plugin-CDVNavBar</description>
+    <license>MIT</license>
+    <keywords>Evothings, Internet of Things, IoT, JavaScript</keywords>
+
+    <js-module src="www/NavBar.js" name="NavBar">
+        <clobbers target="evothings.navbar" />
+    </js-module>
+
+    <!-- ios -->
+    <platform name="ios">
+        <config-file target="config.xml" parent="/*">
+            <feature name="NavBar">
+                <param name="ios-package" value="NavigationBar"/>
+            </feature>
+        </config-file>
+
+        <header-file src="src/ios/NavigationBar.h" />
+        <source-file src="src/ios/NavigationBar.m" />
+        <header-file src="src/ios/MMTableViewCell.h" />
+        <source-file src="src/ios/MMTableViewCell.m" />
+        <header-file src="src/ios/NavigationBarTableViewCell.h" />
+        <source-file src="src/ios/NavigationBarTableViewCell.m" />
+        <header-file src="src/ios/CDVNavigationBarController.h" />
+        <source-file src="src/ios/CDVNavigationBarController.m" />
+        <source-file src="src/ios/CDVNavigationBar.xib" />
+    </platform>
+</plugin>
