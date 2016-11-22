@@ -24,7 +24,6 @@
 		{ "id": "cordova-plugin-globalization" },
 		{ "id": "cordova-plugin-inappbrowser" },
 		{ "id": "cordova-plugin-network-information" },
-		{ "id": "cordova-plugin-statusbar" },
 		{ "id": "cordova-plugin-vibration" },
 		{ "id": "cordova-plugin-chrome-apps-system-network" },
 		{ "id": "cordova-plugin-chrome-apps-sockets-tcp" },
@@ -42,6 +41,8 @@
 		  "location": "https://github.com/katzer/cordova-plugin-local-notifications#0.8.4" },
 		{ "id": "phonegap-plugin-barcodescanner" },
 		{ "id": "com.evothings.evothingsviewer.config-plugin",
-		  "location": "config/config-plugin" }
+		  "location": "config/config-plugin" },
+		{ "id": "com.evothings.evothingsviewer.ui-plugin",
+		  "location": "config/ui-plugin" }
 	]
 }
