@@ -34,7 +34,7 @@
 
 	<platform name="ios">
 		<config-file target="*-Info.plist" parent="UIStatusBarHidden">
-			<true/>
+			<false/>
 		</config-file>
 		<config-file target="*-Info.plist" parent="UIViewControllerBasedStatusBarAppearance">
 			<false/>
