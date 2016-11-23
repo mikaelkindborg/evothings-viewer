@@ -1,9 +1,12 @@
 //
-//  CDVNavigationBarController.m
-//  Cordova Plugin
+// CDVNavigationBarController.m
+// Cordova Plugin
 //
-//  Created by Lifetime.com.eg Technical Team (Amr Hossam / Emad ElShafie) on 6 January 2016.
-//  Copyright (c) 2016 Lifetime.com.eg. All rights reserved.
+// Created by Lifetime.com.eg Technical Team (Amr Hossam / Emad ElShafie)
+// on 6 January 2016.
+//
+// Original work Copyright (c) 2016 Lifetime.com.eg. All rights reserved.
+// Modified work Copyright (c) 2016 Evothings AB.
 //
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
