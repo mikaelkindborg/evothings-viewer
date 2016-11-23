@@ -37,9 +37,12 @@ document.addEventListener(
 	function()
 	{
     // Create native navbar.
-    evothings.navbar.create()
-    evothings.navbar.setupEvothingsViewerUI()
-    evothings.navbar.show()
+    if (window.evothings && window.evothings.navbar)
+    {
+      evothings.navbar.create()
+      evothings.navbar.setupEvothingsViewerUI()
+      evothings.navbar.show()
+    }
 	},
 	false)
 
