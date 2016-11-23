@@ -40,7 +40,7 @@
 @synthesize webView;
 #endif
 @synthesize navBarController, drawervisible, draweritems, draweritemscount;
-@synthesize currentAppURL, appMainUIVisible;
+@synthesize currentAppURL, appMainUIVisible, appUIPage;
 
 - (void) pluginInitialize {
 
@@ -56,6 +56,7 @@
 
 	currentAppURL = NULL;
 	appMainUIVisible = YES;
+	appUIPage = @"connect";
 
     // -----------------------------------------------------------------------
     // This code block is the same for both the navigation and tab bar plugin!
@@ -147,25 +148,87 @@
 	}
 }
 
+// Called from JS.
+- (void)setupEvothingsViewerUI:(CDVInvokedUrlCommand*)command
+{
+  [navBarController navItem].title = @"Evothings Viewer";
+
+	UIBarButtonItem *newButton = [self
+								  makeButtonWithOptions:NULL
+								  title:@"Menu"
+								  imageName:NULL
+								  actionOnSelf:@selector(DrawerTapped)];
+	navBarController.navItem.leftBarButtonItem = newButton;
+	navBarController.leftButton = newButton;
+
+	[self
+	 	setupDrawerWithItems: @[
+								@[@"Connect",@"connect",@"", (id)[NSNull null]],
+								@[@"Info",@"info",@"", (id)[NSNull null]],
+								@[@"Settings",@"settings",@"", (id)[NSNull null]],
+								@[@"Current App",@"currentapp",@"", (id)[NSNull null]]]
+	 	buttonColor: NULL];
+
+	[[navBarController navItem] setLeftBarButtonItem:[navBarController leftButton] animated:YES];
+
+	[self showMainUI];
+}
+
 - (void)doDrawerCommand:(NSString*)commandName
 {
 	NSLog(@"@@@ doDrawerCommand: %@", commandName);
 
+    // Alternative 1: Show external page.
 	if ([commandName isEqualToString: @"currentapp"])
 	{
 		if (currentAppURL != NULL)
 		{
+	    appMainUIVisible = NO;
 			[self showRemotePage: currentAppURL];
-		}
-		else
-		{
-			[self showLocalPage: @"noapploadedyet"];
+			return;
 		}
 	}
-	else if ([commandName isEqualToString: @"connect"])
+
+	if (!appMainUIVisible)
 	{
-		[self showLocalPage: @"index"];
+      // Alternative 2: Load local page with Main UI.
+	  appUIPage = commandName;
+		[self showLocalPage: @"index"];	}
+    else
+    {
+		// Alternative 3: Main UI loaded, show current page.
+		appUIPage = commandName;
+
+	  [self showMainUI];
 	}
+}
+
+- (void) showMainUI
+{
+	appMainUIVisible = YES;
+
+	if ([appUIPage isEqualToString: @"connect"])
+	{
+		[self callJS: @"app.showMain()"];
+	}
+	else if ([appUIPage isEqualToString: @"info"])
+	{
+		[self callJS: @"app.showInfo()"];
+	}
+	else if ([appUIPage isEqualToString: @"settings"])
+	{
+		[self callJS: @"app.showSettings()"];
+	}
+	else if ([appUIPage isEqualToString: @"currentapp"])
+	{
+		[self callJS: @"app.showNoApp()"];
+	}
+}
+
+- (void) callJS: (NSString*)code
+{
+	UIWebView* uiwebview = ((UIWebView*)self.webView);
+  	[uiwebview stringByEvaluatingJavaScriptFromString: code];
 }
 
 - (void) showLocalPage: (NSString*)pageName
@@ -345,31 +408,6 @@
 - (void)orientationChanged:(NSNotification *)notification{
 	NSLog(@"orientationChanged");
     [self correctWebViewFrame];
-}
-
-- (void)setupEvothingsViewerUI:(CDVInvokedUrlCommand*)command
-{
-    [navBarController navItem].title = @"Evothings Viewer";
-
-	UIBarButtonItem *newButton = [self
-								  makeButtonWithOptions:NULL
-								  title:@"Menu"
-								  imageName:NULL
-								  actionOnSelf:@selector(DrawerTapped)];
-	navBarController.navItem.leftBarButtonItem = newButton;
-	navBarController.leftButton = newButton;
-
-	[self
-	 	setupDrawerWithItems: @[
-								@[@"Connect",@"connect",@"", (id)[NSNull null]],
-								@[@"Info",@"info",@"", (id)[NSNull null]],
-								@[@"Settings",@"settings",@"", (id)[NSNull null]],
-								@[@"Current App",@"currentapp",@"", (id)[NSNull null]]]
-	 	buttonColor: NULL];
-
-	[[navBarController navItem] setLeftBarButtonItem:[navBarController leftButton] animated:YES];
-
-
 }
 
 ///////////

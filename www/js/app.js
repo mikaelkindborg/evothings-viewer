@@ -43,6 +43,10 @@ document.addEventListener(
       evothings.navbar.setupEvothingsViewerUI()
       evothings.navbar.show()
     }
+    else
+    {
+      app.showMain()
+    }
   },
   false)
 
@@ -459,7 +463,7 @@ app.openBrowser = function(url)
 app.showMain = function()
 {
   app.hideScreens()
-  $('main').show()
+  $('#screen-main').show()
   //$('header button.back').hide()
 }
 
@@ -475,11 +479,18 @@ app.showSettings = function()
   $('#screen-settings').show()
 }
 
+app.showNoApp = function()
+{
+  app.hideScreens()
+  $('#screen-noapp').show()
+}
+
 app.hideScreens = function()
 {
-  $('main').hide()
+  $('#screen-main').hide()
   $('#screen-info').hide()
   $('#screen-settings').hide()
+  $('#screen-noapp').hide()
 }
 
 // The client id is a session-based ID, obtained from the server.
