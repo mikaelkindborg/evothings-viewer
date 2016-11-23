@@ -107,6 +107,8 @@ header {
 	background: #f3f3f3;
 
 	z-index: 1000;
+
+	display: none;
 }
 header button {
 	display: block;
@@ -261,6 +263,7 @@ header h1 {
 
 main {
 	z-index: 0;
+	display: none;
 }
 
 main footer {

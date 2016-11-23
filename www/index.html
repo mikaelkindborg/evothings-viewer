@@ -30,6 +30,24 @@
 
 <body ontouchstart="">
 
+	<header>
+		<img class="logotype" src="ui/images/logo.svg" alt="Evothings" />
+
+		<!-- tabindex and onclick enables :focus selector in some browsers. -->
+		<button id="menu-button" tabindex="0" onclick="this.focus()">
+			<img src="ui/images/menu.svg" />
+		</button>
+
+		<menu>
+			<menuitem id="menuitem-main">Connect</menuitem>
+			<menuitem id="menuitem-info">Info</menuitem>
+			<menuitem id="menuitem-settings">Settings</menuitem>
+			<!--<menuitem onclick="location.href='gallery.html'">
+				App Gallery
+			</menuitem>-->
+		</menu>
+	</header>
+
 	<main id="screen-main">
 		<h1>Connect</h1>
 		<div id="connect-ui">
@@ -94,6 +112,11 @@
 		<button id="button-save-settings" onclick="app.onSaveSettingsButton()" class="stone">
 			Save
 		</button>
+	</article>
+
+	<article id="screen-noapp">
+		<h1>No app loaded</h1>
+		<p>Connect to Evothings Workbench and click RUN on an app in the Workbench to load the app.</p>
 	</article>
 
 	<script src="cordova.js"></script>
