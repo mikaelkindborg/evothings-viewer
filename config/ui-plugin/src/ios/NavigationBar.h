@@ -54,6 +54,9 @@
 @property (nonatomic, retain) NSArray * draweritems; // Drawer
 @property (nonatomic, assign) int draweritemscount; // Drawer
 
+@property (nonatomic, retain) NSURL* currentAppURL;
+@property (nonatomic) bool appMainUIVisible;
+
 - (void)create:(CDVInvokedUrlCommand*)command;
 - (void)setupEvothingsViewerUI:(CDVInvokedUrlCommand*)command;
 - (void)setTitle:(CDVInvokedUrlCommand*)command;

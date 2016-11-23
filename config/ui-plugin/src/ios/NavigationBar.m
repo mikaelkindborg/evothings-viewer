@@ -40,16 +40,22 @@
 @synthesize webView;
 #endif
 @synthesize navBarController, drawervisible, draweritems, draweritemscount;
+@synthesize currentAppURL, appMainUIVisible;
 
 - (void) pluginInitialize {
 
     [[NSNotificationCenter defaultCenter] addObserver:self  selector:@selector(orientationChanged:)    name:UIDeviceOrientationDidChangeNotification  object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pageDidLoad:) name:CDVPageDidLoadNotification object:self.webView];
 
     UIWebView* uiwebview = ((UIWebView*)self.webView);
 
 	//uiwebview.autoresizingMask = 0;
 
     drawervisible = 0;
+
+	currentAppURL = NULL;
+	appMainUIVisible = YES;
 
     // -----------------------------------------------------------------------
     // This code block is the same for both the navigation and tab bar plugin!
@@ -61,7 +67,7 @@
     // and tab bar plugins together, these values won't be the original web view frame and layout will be wrong.
     originalWebViewFrame = uiwebview.frame;
     UIApplication *app = [UIApplication sharedApplication];
-
+/*
     UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
     switch (orientation)
     {
@@ -85,7 +91,7 @@
             NSLog(@"Unknown orientation: %d", orientation);
             break;
     }
-
+*/
     //if (isAtLeast8) navBarHeight = 44.0f;
     navBarHeight = 64.0f;
     tabBarHeight = 49.0f;
@@ -98,10 +104,101 @@
  */
 - (void) onReset
 {
-	NSLog(@"onReset");
+	  NSLog(@"onReset");
     [self correctWebViewFrame];
 }
 
+/*
+- (void)handleOpenURL:(NSNotification*)notification
+{
+    // override to handle urls sent to your app
+    // register your url schemes in your App-Info.plist
+
+    NSLog(@"@@@ handleOpenURL notification: %@", notification);
+
+    NSURL* url = [notification object];
+
+    if ([url isKindOfClass:[NSURL class]]) {
+ 		NSLog(@"@@@ handleOpenURL url: %@", url);
+    }
+}
+*/
+
+- (void)pageDidLoad:(NSNotification*)notification
+{
+    // override to handle urls sent to your app
+    // register your url schemes in your App-Info.plist
+
+    //NSLog(@"@@@ pageDidLoad notification: %@", notification);
+	//NSLog(@"@@@ pageDidLoad object: %@", [notification object]);
+	UIWebView* webView = [notification object];
+	//NSLog(@"@@@ pageDidLoad URL: %@", webView.request.URL.absoluteString);
+	//NSLog(@"@@@ pageDidLoad mainDocumentURL: %@", webView.request.mainDocumentURL.absoluteString);
+
+	NSURL* url = webView.request.URL;
+
+	// Is the main UI visible?
+	appMainUIVisible = url.fileURL;
+
+	// Save the app URL if loaded from a server.
+	if (!url.fileURL)
+	{
+		currentAppURL = url;
+	}
+}
+
+- (void)doDrawerCommand:(NSString*)commandName
+{
+	NSLog(@"@@@ doDrawerCommand: %@", commandName);
+
+	if ([commandName isEqualToString: @"currentapp"])
+	{
+		if (currentAppURL != NULL)
+		{
+			[self showRemotePage: currentAppURL];
+		}
+		else
+		{
+			[self showLocalPage: @"noapploadedyet"];
+		}
+	}
+	else if ([commandName isEqualToString: @"connect"])
+	{
+		[self showLocalPage: @"index"];
+	}
+}
+
+- (void) showLocalPage: (NSString*)pageName
+{
+	CDVViewController* viewController = (CDVViewController*) self.viewController;
+
+	// Set URL to local start page.
+	NSString* path = [[NSBundle mainBundle]
+						  pathForResource: pageName
+						  ofType: @"html"
+						  inDirectory: viewController.wwwFolderName];
+	NSURL* pageURL = [NSURL fileURLWithPath: path isDirectory: NO];
+
+
+	// Load URL into web view.
+	NSURLRequest* request = [NSURLRequest
+								 requestWithURL: pageURL
+								 cachePolicy: NSURLRequestUseProtocolCachePolicy
+								 timeoutInterval: 20.0];
+	[viewController.webViewEngine loadRequest: request];
+}
+
+- (void) showRemotePage: (NSURL*)url
+{
+	CDVViewController* viewController = (CDVViewController*) self.viewController;
+
+	// Load URL into web view.
+	NSURLRequest* request = [NSURLRequest
+							 requestWithURL: url
+							 cachePolicy: NSURLRequestUseProtocolCachePolicy
+							 timeoutInterval: 20.0];
+	[viewController.webViewEngine loadRequest: request];
+}
 
 // NOTE: Returned object is owned
 -(UIBarButtonItem*)backgroundButtonFromImage:(NSString*)imageName title:(NSString*)title fixedMarginLeft:(float)fixedMarginLeft fixedMarginRight:(float)fixedMarginRight target:(id)target action:(SEL)action
@@ -267,16 +364,11 @@
 								@[@"Connect",@"connect",@"", (id)[NSNull null]],
 								@[@"Info",@"info",@"", (id)[NSNull null]],
 								@[@"Settings",@"settings",@"", (id)[NSNull null]],
-								@[@"Current App",@"app",@"", (id)[NSNull null]]]
+								@[@"Current App",@"currentapp",@"", (id)[NSNull null]]]
 	 	buttonColor: NULL];
 
 	[[navBarController navItem] setLeftBarButtonItem:[navBarController leftButton] animated:YES];
 
-
-}
-
-- (void)doDrawerCommand:(NSString*)commandName
-{
 
 }
 
