@@ -1,0 +1,30 @@
+{
+  "name": "cordova-plugin-cdvnavbar",
+  "version": "2.1.5",
+  "description": "Add Native NavigationBar to your Cordova Applications with Drawer",
+  "cordova": {
+    "id": "cordova-plugin-CDVNavBar",
+    "platforms": [
+      "ios"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Emadello/cordova-plugin-CDVNavBar.git"
+  },
+  "keywords": [
+	"ecosystem:cordova",
+    "cordova",
+    "drawer",
+    "slidemenu",
+    "navigationbar",
+    "cordova-ios",
+    "native"
+  ],
+  "author": "Lifetime.com.eg",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Emadello/cordova-plugin-CDVNavBar/issues"
+  },
+  "homepage": "https://github.com/Emadello/cordova-plugin-CDVNavBar#readme"
+}
