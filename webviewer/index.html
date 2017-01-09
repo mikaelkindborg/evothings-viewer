@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, user-scalable=no,
+		initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
+
+	<meta http-equiv="pragma" content="no-cache" />
+	<meta http-equiv="expires" content="-1" />
+
+	<title>Evothings Viewer</title>
+
+	<style>
+		@import 'ui/css/evothings-app.css';
+	</style>
+
+	<style>
+	input
+	{
+		border: 1px solid #aaaaaa !important;
+		width: 100% !important;
+	}
+	</style>
+
+</head>
+
+<body>
+
+	<div id="screen-main">
+		<h1>Evothings Viewer</h1>
+
+		<div id="login-ui">
+			<button id="button-login" class="small charcoal">
+				Login
+			</button>
+
+			<button id="button-logout" class="small charcoal">
+				Logout
+			</button>
+		</div>
+
+	</div>
+
+	<script src="https://cdn.auth0.com/js/lock/10.8/lock.min.js"></script>
+	<script src="libs/jquery/jquery-3.1.1.min.js"></script>
+	<xscript src="app.js"></xscript>
+
+<script>
+//python -m SimpleHTTPServer 8000
+
+
+var lock = new Auth0Lock('ik5CtR3dBIIHPUvJ7pRK7lG6x2252FeB', 'mikael-evothings.eu.auth0.com');
+
+var buttonLogin = document.getElementById('button-login');
+
+buttonLogin.addEventListener('click', function() {
+  lock.show();
+});
+
+lock.on('authenticated', function(authResult) {
+	console.log('authenticated')
+  lock.getProfile(authResult.idToken, function(error, profile) {
+    if (error) {
+      // Handle error
+	  console.log('getProfile error: ' + error)
+      return;
+    }
+    //localStorage.setItem('id_token', authResult.idToken);
+    // Display user information
+	console.log('login ok')
+	console.log('token: ' + authResult.idToken)
+	console.log('profile:')
+    console.log(profile);
+	console.log('authResult:')
+    console.log(authResult);
+	getUserInfo(authResult.accessToken)
+	});
+})
+
+function getUserInfo(token)
+{
+  	console.log('getting userinfo')
+	$.ajaxSetup({
+		'beforeSend': function(xhr) {
+		 	xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+		}
+	});
+
+	$.getJSON('https://mikael-evothings.eu.auth0.com/userinfo', 
+		function(data) {
+			console.log('got userinfo:')
+			console.log(data)
+		});
+}
+
+//https://mikael-evothings.eu.auth0.com/mobile, http://localhost:3000, http://localhost:3001
+
+//file://\*
+</script>
+
+</body>
+</html>
