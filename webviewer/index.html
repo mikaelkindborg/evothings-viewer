@@ -49,41 +49,69 @@
 <script>
 //python -m SimpleHTTPServer 8000
 
+var serverAddress = 'http://localhost:2000'
 
-var lock = new Auth0Lock('ik5CtR3dBIIHPUvJ7pRK7lG6x2252FeB', 'mikael-evothings.eu.auth0.com');
+function initialize()
+{
+	var lock = new Auth0Lock('ik5CtR3dBIIHPUvJ7pRK7lG6x2252FeB', 'mikael-evothings.eu.auth0.com')
 
-var buttonLogin = document.getElementById('button-login');
+	var buttonLogin = document.getElementById('button-login')
+	var buttonLogout = document.getElementById('button-logout')
 
-buttonLogin.addEventListener('click', function() {
-  lock.show();
-});
+	var clientID = localStorage.getItem('hyper-clientid')
+	if (!clientID)
+	{
+		clientID = generateUUID()
+		localStorage.setItem('hyper-clientid', clientID)
+	}
 
-lock.on('authenticated', function(authResult) {
-	console.log('authenticated')
-  lock.getProfile(authResult.idToken, function(error, profile) {
-    if (error) {
-      // Handle error
-	  console.log('getProfile error: ' + error)
-      return;
-    }
-    //localStorage.setItem('id_token', authResult.idToken);
-    // Display user information
-	console.log('login ok')
-	console.log('token: ' + authResult.idToken)
-	console.log('profile:')
-    console.log(profile);
-	console.log('authResult:')
-    console.log(authResult);
-	getUserInfo(authResult.accessToken)
+	buttonLogin.addEventListener('click', function() 
+	{
+		lock.show();
 	});
-})
 
+	buttonLogout.addEventListener('click', function() 
+	{
+		lock.show();
+	});
+
+	lock.on('authenticated', function(authResult) 
+	{
+		console.log('authenticated')
+
+		console.log('token: ' + authResult.accessToken)
+
+		sendLoginToServer(clientID, authResult.accessToken)
+
+		lock.getProfile(authResult.idToken, function(error, profile)
+		{
+			if (error) 
+			{
+				// Handle error
+				console.log('getProfile error: ' + error)
+				return
+			}
+			//localStorage.setItem('id_token', authResult.idToken);
+			// Display user information
+			console.log('login ok')
+			
+			console.log('profile:')
+			console.log(profile)
+			console.log('authResult:')
+			console.log(authResult)
+			//getUserInfo(authResult.accessToken)
+
+			});
+		})
+}
+
+/*
 function getUserInfo(token)
 {
   	console.log('getting userinfo')
 	$.ajaxSetup({
 		'beforeSend': function(xhr) {
-		 	xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+		 	xhr.setRequestHeader('Authorization', 'Bearer ' + token)
 		}
 	});
 
@@ -93,6 +121,47 @@ function getUserInfo(token)
 			console.log(data)
 		});
 }
+*/
+
+function sendLoginToServer(clientID, token)
+{
+  	console.log('sendLoginToServer')
+	
+	var url = serverAddress + '/login-mobile-client/' + clientID + '/' + token
+	$.getJSON(url,
+		function(data) {
+			console.log('sendLoginToServer response:')
+			console.log(data)
+		});
+}
+
+function sendLogoutToServer(clientID)
+{
+  	console.log('sendLogoutToServer')
+	
+	var url = serverAddress + '/logout-mobile-client/' + clientID
+	$.getJSON(url,
+		function(data) {
+			console.log('sendLogoutToServer response:')
+			console.log(data)
+		});
+}
+
+// Thanks to http://stackoverflow.com/a/8809472/4940311
+function generateUUID()
+{
+	var d = new Date().getTime()
+	return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(
+		/[xy]/g,
+		function(c)
+		{
+			var r = (d + Math.random()*16) % 16 | 0
+			d = Math.floor(d/16)
+			return (c == 'x' ? r : (r&0x3|0x8)).toString(16)
+		})
+}
+
+initialize()
 
 //https://mikael-evothings.eu.auth0.com/mobile, http://localhost:3000, http://localhost:3001
 
