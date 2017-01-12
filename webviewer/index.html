@@ -53,7 +53,13 @@ var serverAddress = 'http://localhost:2000'
 
 function initialize()
 {
-	var lock = new Auth0Lock('ik5CtR3dBIIHPUvJ7pRK7lG6x2252FeB', 'mikael-evothings.eu.auth0.com')
+	var lock = new Auth0Lock(
+		'ik5CtR3dBIIHPUvJ7pRK7lG6x2252FeB', 
+		'mikael-evothings.eu.auth0.com',
+		{ auth: { 
+			sso: false,
+			responseType: 'token',
+			redirectUrl: 'http://localhost:8000/' } })
 
 	var buttonLogin = document.getElementById('button-login')
 	var buttonLogout = document.getElementById('button-logout')
